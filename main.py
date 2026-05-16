@@ -20,8 +20,6 @@ def home():
         "endpoints": ["/api/submit-report", "/api/track", "/api/admin/all-reports"]
     }
 
-# --- 1. FIXED CORS SETTINGS ---
-# This allows your frontend (port 5500) to talk to the backend (port 8000)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -30,12 +28,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- 2. CONFIGURATION ---
 DB_FILE = "shield.db"
 UPLOAD_DIR = "cleaned_evidence"
 OTP_STORAGE = {}
 
-# Email Config (Update these for real emails)
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SENDER_EMAIL = "your-email@gmail.com" 
@@ -44,11 +40,9 @@ SENDER_PASSWORD = "your-app-password"
 if not os.path.exists(UPLOAD_DIR):
     os.makedirs(UPLOAD_DIR)
 
-# --- 3. UPDATED DATABASE SCHEMA ---
 def init_db():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    # We added device_type, location, has_suspect, etc.
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS reports (
             case_id TEXT PRIMARY KEY,
@@ -69,7 +63,6 @@ def init_db():
 
 init_db()
 
-# --- 4. DATA MODELS (Must match index.html exactly) ---
 class EmailRequest(BaseModel):
     email: str
 
@@ -80,16 +73,15 @@ class OTPVerifyRequest(BaseModel):
 class CasePayload(BaseModel):
     category: str
     narrative: str
-    device_type: str        # ADDED
-    incident_location: str   # ADDED
-    has_suspect: bool       # ADDED
+    device_type: str        
+    incident_location: str   
+    has_suspect: bool      
     suspect_name: Optional[str] = "N/A"
     suspect_details: Optional[str] = "N/A"
 
 class StatusUpdatePayload(BaseModel):
     new_status: str
 
-# --- 5. LOGIC ---
 def classify_incident(text: str):
     text = text.lower()
     cyber_keywords = ["phishing", "hacked", "password", "scam", "virus", "account", "login", "email"]
@@ -105,7 +97,6 @@ def classify_incident(text: str):
     else:
         return "GENERAL", "Report received. Routed for manual review."
 
-# --- 6. API ENDPOINTS ---
 
 @app.post("/api/verify-email")
 async def verify_email(payload: EmailRequest):
