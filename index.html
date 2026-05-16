@@ -327,10 +327,8 @@ crimes</title>
 
         const data = await response.json();
         
-        // Show the OTP input field
         document.getElementById('otp-container').classList.remove('hidden');
         
-        // This will show either the success message or the debug code if email fails
         displayStatusMessage(data.message + (data.debug ? " [DEBUG CODE: " + data.debug + "]" : ""), "info");
 
     } catch (error) {
@@ -344,7 +342,6 @@ crimes</title>
         const email = document.getElementById('user-email').value;
         const otp = document.getElementById('otp-code').value;
 
-        // Ask the Python Backend to verify the OTP
         const res = await fetch('https://shield-7dxm.onrender.com/api/check-otp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -357,7 +354,6 @@ crimes</title>
         }
     }
     
-    // If verified or moving backward, proceed to next step
     document.getElementById(`step-${activeStepIndex}`).classList.remove('active');
     activeStepIndex += offset;
     document.getElementById(`step-${activeStepIndex}`).classList.add('active');
@@ -392,7 +388,6 @@ crimes</title>
             } catch(e) { alert("Token not found in encrypted storage."); }
         }
 
-        // --- BACKEND INTEGRATION ---
         async function handleFormSubmit(e) {
     e.preventDefault();
     if (!document.getElementById('legal-consent').checked) { 
@@ -404,7 +399,6 @@ crimes</title>
     btn.innerText = "TRIAGING..."; 
     btn.disabled = true;
 
-    // Grab all values safely
     const payload = {
         category: document.getElementById('crime-category')?.value || "Other",
         narrative: document.getElementById('crime-description')?.value || "No description",
@@ -416,7 +410,6 @@ crimes</title>
     };
 
     try {
-        // 1. Submit the text report
         const res = await fetch('https://shield-7dxm.onrender.com/api/submit-report', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -425,9 +418,8 @@ crimes</title>
 
         if (!res.ok) throw new Error("Server Error");
 
-        const reportData = await res.json(); // FIXED: Changed from reportRes to res
+        const reportData = await res.json(); 
 
-        // 2. Upload File if selected
         const fileInput = document.getElementById('evidence-files');
         if (fileInput.files.length > 0) {
             btn.innerText = "SCRUBBING METADATA...";
@@ -439,7 +431,6 @@ crimes</title>
             });
         }
 
-        // 3. Show Success UI
         document.getElementById('shield-form').parentElement.innerHTML = `
             <div class="text-center py-10">
                 <div class="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/20 text-3xl">
