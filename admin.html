@@ -178,7 +178,6 @@
             }
         }
 
-        // UPDATE STATUS IN BACKEND
         async function updateStatus(caseId, statusValue) {
             try {
                 await fetch(`https://shield-7dxm.onrender.com/api/admin/update-status/${caseId}`, {
@@ -190,7 +189,6 @@
             } catch (e) { alert("Status Sync Failed."); }
         }
 
-        // OPEN THE DETAILS DRAWER
         function openDrawer(id, narrative) {
             selectedCaseId = id;
             document.getElementById('drawer-title').innerText = `CASE MANAGEMENT: ${id}`;
@@ -203,7 +201,6 @@
             document.getElementById('action-drawer').classList.add('hidden');
         }
 
-        // DELETE THE REPORT PERMANENTLY
         async function confirmPurge() {
             if (!confirm(`CRITICAL ACTION: Purge Case ${selectedCaseId} permanently?`)) return;
 
