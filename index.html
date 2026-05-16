@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD |  Secure Help for Immediate Exposure of Local Digital 
+crimes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .form-step { display: none; }
+        .form-step.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-bar { transition: width 0.4s ease-in-out; }
+        .custom-drawer-shadow { box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans overflow-x-hidden">
+
+    <div id="awareness-drawer" class="fixed inset-y-0 right-0 w-80 bg-slate-800 custom-drawer-shadow border-l border-slate-700 transform translate-x-full transition-transform duration-300 z-[100] p-6 overflow-y-auto hidden">
+        <div class="flex justify-between items-center mb-8">
+            <h3 class="text-xl font-bold text-indigo-400">Cyber Intelligence</h3>
+            <button onclick="toggleAwareness()" class="text-slate-400 hover:text-white transition"><i class="fas fa-times text-2xl"></i></button>
+        </div>
+        
+        <div class="space-y-6">
+            <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-700">
+                <div class="w-10 h-10 bg-amber-500/10 text-amber-500 flex items-center justify-center rounded-lg mb-3">
+                    <i class="fas fa-fish"></i>
+                </div>
+                <h4 class="font-bold text-slate-200 text-sm mb-1">Phishing Scams</h4>
+                <p class="text-slate-400 text-[11px] leading-relaxed">Hackers impersonate campus IT to steal your password. Check the sender's email address carefully.</p>
+            </div>
+
+            <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-700">
+                <div class="w-10 h-10 bg-indigo-500/10 text-indigo-400 flex items-center justify-center rounded-lg mb-3">
+                    <i class="fas fa-shield-virus"></i>
+                </div>
+                <h4 class="font-bold text-slate-200 text-sm mb-1">Metadata Stripping</h4>
+                <p class="text-slate-400 text-[11px] leading-relaxed">Our AI automatically removes GPS coordinates and device info from your uploads to keep you anonymous.</p>
+            </div>
+
+            <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-700">
+                <div class="w-10 h-10 bg-emerald-500/10 text-emerald-500 flex items-center justify-center rounded-lg mb-3">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h4 class="font-bold text-slate-200 text-sm mb-1">AI Smart Triage</h4>
+                <p class="text-slate-400 text-[11px] leading-relaxed">Our Neural Network analyzes your text to ensure your report reaches the right department instantly.</p>
+            </div>
+        </div>
+        <div class="mt-8">
+            <a href="hub.html" class="block text-center bg-indigo-600 py-3 rounded-xl text-xs font-bold hover:bg-indigo-500 transition">View Full Awareness Hub</a>
+        </div>
+    </div>
+
+    <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700 py-4 px-6 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white font-black text-xl shadow-lg shadow-indigo-500/20">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <h1 class="font-bold hidden sm:block tracking-tight">S.H.I.E.L.D.</h1>
+            </div>
+
+            <button onclick="toggleAwareness()" class="group flex items-center space-x-3 bg-indigo-600/10 hover:bg-indigo-600/20 border border-indigo-500/40 px-5 py-2.5 rounded-2xl transition">
+                <span class="text-xs font-black text-indigo-400 uppercase tracking-widest group-hover:text-indigo-300">Quick Help</span>
+                <div class="bg-indigo-500 text-white w-7 h-7 rounded-full flex items-center justify-center shadow-lg shadow-indigo-500/30 animate-pulse">
+                    <i class="fas fa-info text-xs"></i>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 w-full max-w-xl rounded-3xl shadow-2xl p-6 sm:p-10 relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 to-emerald-500"></div>
+
+            <div class="flex border-b border-slate-700 mb-8">
+                <button onclick="switchTab('report')" id="tab-report-btn" class="flex-1 py-3 text-xs font-black uppercase tracking-widest border-b-2 border-indigo-500 text-indigo-400 transition">
+                    <i class="fas fa-file-medical mr-2"></i> File Report
+                </button>
+                <button onclick="switchTab('track')" id="tab-track-btn" class="flex-1 py-3 text-xs font-black uppercase tracking-widest border-b-2 border-transparent text-slate-500 hover:text-slate-300 transition">
+                    <i class="fas fa-search mr-2"></i> Track Case
+                </button>
+            </div>
+
+            <div id="section-report">
+                <div id="status-box" class="hidden mb-6 p-4 rounded-xl text-sm flex items-start space-x-3"></div>
+
+            <div class="mb-10">
+                <div class="flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">
+                    <span id="progress-text">Identity Verification</span>
+                    <span id="progress-percent">25%</span>
+                </div>
+                <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-700">
+                    <div id="progress-indicator" class="progress-bar h-full bg-gradient-to-r from-indigo-500 to-indigo-400 w-1/4 shadow-[0_0_10px_#6366f1]"></div>
+                </div>
+            </div>
+
+            <form id="shield-form" onsubmit="handleFormSubmit(event)">
+                
+                <div class="form-step active" id="step-1">
+                    <h2 class="text-2xl font-black mb-2 text-slate-100 tracking-tight">Access Verification</h2>
+                    <p class="text-slate-400 text-xs mb-8 leading-relaxed">Enter your campus email to authenticate. Your identity will be isolated from the report details for absolute privacy.</p>
+                    
+                    <input type="email" id="user-email" placeholder="student@university.edu" class="w-full p-4 bg-slate-900 border border-slate-700 rounded-2xl mb-4 outline-none focus:ring-2 focus:ring-indigo-500 transition text-sm">
+                    <button type="button" onclick="sendMockOTP()" class="w-full bg-slate-700 hover:bg-slate-600 py-3 rounded-2xl text-xs font-bold transition">Send Verification Code</button>
+                    
+                    <div id="otp-container" class="hidden mt-6">
+                        <label class="text-[10px] uppercase font-black text-slate-500 mb-2 block tracking-widest">Enter 6-Digit Code</label>
+                        <input type="text" id="otp-code" placeholder="------" maxlength="6" class="w-full p-4 bg-slate-900 border border-slate-700 rounded-2xl text-center tracking-[1em] text-lg font-mono outline-none focus:ring-2 focus:ring-emerald-500 transition">
+                    </div>
+                    
+                    <div class="mt-10 flex justify-end">
+                        <button type="button" onclick="navigateStep(1)" class="bg-indigo-600 hover:bg-indigo-500 px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-600/20 transition">Next Step <i class="fas fa-chevron-right ml-2"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-2">
+                    <h2 class="text-2xl font-black mb-2">Incident Context</h2>
+                    <p class="text-slate-400 text-xs mb-8">Choose a category and describe what happened. Our AI will triage this instantly.</p>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                            <select id="device-type" class="p-4 bg-slate-900 border border-slate-700 rounded-2xl text-[11px] font-bold uppercase outline-none focus:ring-1 focus:ring-indigo-500">
+                                <option value="Mobile">Online</option>
+                                <option value="Laptop">Public Network</option>
+                                <option value="Network">Other</option>
+                            </select>
+                            <input type="text" id="incident-location" placeholder="Location (e.g. Block-B)" class="p-4 bg-slate-900 border border-slate-700 rounded-2xl text-[11px] font-bold outline-none focus:ring-1 focus:ring-indigo-500">
+                        </div>
+                    
+                    <select id="crime-category" class="w-full p-4 bg-slate-900 border border-slate-700 rounded-2xl mb-4 text-sm outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        <option value="phishing">Phishing / Social Engineering</option>
+                        <option value="hacking">Unauthorized Access / Hacking</option>
+                        <option value="harassment">Cyberbullying / Harassment</option>
+                        <option value="other">Other / Unsure</option>
+                    </select>
+                    
+                    <textarea id="crime-description" rows="4" placeholder="Be detailed. Mention websites, apps, or specific messages..." class="w-full p-4 bg-slate-900 border border-slate-700 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500 transition resize-none"></textarea>
+                    
+                    <div class="mt-10 flex justify-between">
+                        <button type="button" onclick="navigateStep(-1)" class="text-slate-400 font-bold text-xs uppercase tracking-widest">Back</button>
+                        <button type="button" onclick="navigateStep(1)" class="bg-indigo-600 hover:bg-indigo-500 px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition">Next Step <i class="fas fa-chevron-right ml-2"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-3">
+                    <h2 class="text-2xl font-black mb-2">Evidence Vault</h2>
+                    <p class="text-slate-400 text-xs mb-8 italic">Uploaded files are programmatically scrubbed of GPS and device metadata upon submission.</p>
+                    
+                    <div class="border-2 border-dashed border-slate-700 p-10 text-center rounded-3xl bg-slate-900/50 hover:border-indigo-500 transition relative">
+                        <input type="file" id="evidence-files" class="absolute inset-0 opacity-0 cursor-pointer">
+                        <div class="space-y-3 pointer-events-none">
+                            <i class="fas fa-cloud-arrow-up text-4xl text-indigo-500/50"></i>
+                            <p class="text-xs font-bold text-slate-300">Drop files here or click</p>
+                        </div>
+                    </div>
+                    <div id="file-list" class="mt-4 p-3 bg-slate-900/50 rounded-xl text-[10px] text-emerald-400 font-mono hidden"></div>
+                    
+                    <div class="mt-10 flex justify-between">
+                        <button type="button" onclick="navigateStep(-1)" class="text-slate-400 font-bold text-xs uppercase tracking-widest">Back</button>
+                        <button type="button" onclick="navigateStep(1)" class="bg-indigo-600 hover:bg-indigo-500 px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition">Next Step <i class="fas fa-chevron-right ml-2"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-4">
+                        <h2 class="text-2xl font-black mb-2">Suspect Intel</h2>
+                        <p class="text-slate-400 text-xs mb-6">Do you have details regarding the individual responsible?</p>
+                        
+                        <div class="flex space-x-4 mb-6">
+                            <button type="button" onclick="toggleSuspectFields(true)" id="suspect-yes" class="flex-1 py-3 border border-slate-700 rounded-xl text-[10px] font-black tracking-widest transition uppercase">Yes</button>
+                            <button type="button" onclick="toggleSuspectFields(false)" id="suspect-no" class="flex-1 py-3 border border-indigo-500 bg-indigo-500/10 text-indigo-400 rounded-xl text-[10px] font-black tracking-widest transition uppercase">No / Unsure</button>
+                        </div>
+
+                        <div id="suspect-details-area" class="hidden space-y-4 animate-fadeIn mb-6">
+                            <input type="text" id="suspect-name" placeholder="Suspect Name / Online Alias" class="w-full p-4 bg-slate-900 border border-slate-700 rounded-2xl text-sm outline-none focus:ring-1 focus:ring-indigo-500">
+                            <textarea id="suspect-desc" rows="2" placeholder="Describe physical traits or social media handles..." class="w-full p-4 bg-slate-900 border border-slate-700 rounded-2xl text-sm outline-none resize-none"></textarea>
+                        </div>
+
+                        <label class="flex items-start space-x-4 bg-slate-900/30 p-5 rounded-2xl border border-slate-700 mb-6">
+                            <input type="checkbox" id="legal-consent" class="mt-1 h-4 w-4 accent-indigo-500">
+                            <span class="text-[11px] text-slate-500 leading-relaxed">I certify this information is submitted in good faith under S.H.I.E.L.D. protocol.</span>
+                        </label>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" onclick="navigateStep(-1)" class="text-slate-500 font-black text-xs">BACK</button>
+                            <button type="submit" id="submit-btn" class="bg-emerald-600 hover:bg-emerald-500 px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest text-white transition shadow-xl shadow-emerald-600/20">Submit Intel</button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+        <div id="section-track" class="hidden animate-fadeIn">
+                <h2 class="text-2xl font-black mb-2">Search Records</h2>
+                <p class="text-slate-400 text-xs mb-8">Enter your SHIELD-XXXXXX token to fetch status.</p>
+                <div class="space-y-4">
+                    <input type="text" id="track-token-input" placeholder="SHIELD-000000" class="w-full p-4 bg-slate-900 border border-slate-700 rounded-2xl text-center font-mono tracking-widest outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button onclick="handleMainPageTrack()" class="w-full bg-indigo-600 py-4 rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-indigo-600/20">FETCH DATA</button>
+                </div>
+                <div id="track-result" class="mt-8 hidden">
+                    <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl space-y-4 shadow-inner">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Live Status</span>
+                            <span id="track-status-badge" class="bg-emerald-500/10 text-emerald-500 px-3 py-1 rounded-full text-[10px] font-bold border border-emerald-500/20 uppercase">RECEIVED</span>
+                        </div>
+                        <h3 id="track-category-display" class="text-lg font-black text-slate-200 uppercase tracking-tight">--</h3>
+                        <p id="track-advice-display" class="text-[11px] text-slate-400 italic leading-relaxed">--</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="chat-widget" class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
+        <div id="chat-window" class="hidden w-80 h-[400px] bg-slate-800 border border-slate-700 rounded-3xl shadow-2xl flex flex-col overflow-hidden mb-4 transition-all duration-300 transform scale-95 origin-bottom-right">
+            <div class="bg-indigo-600 p-4 flex justify-between items-center text-white"><div class="flex items-center space-x-2"><i class="fas fa-robot"></i><span class="text-xs font-black uppercase tracking-widest">Shield Assistant</span></div><button onclick="toggleChat()"><i class="fas fa-times"></i></button></div>
+            <div id="widget-chat-box" class="flex-grow p-4 overflow-y-auto space-y-3 text-[11px] bg-slate-900/50 custom-scrollbar">
+                <div class="bg-slate-800 border border-slate-700 p-3 rounded-2xl rounded-tl-none text-slate-300">How can I help you with your report?</div>
+            </div>
+            <div class="p-3 bg-slate-800 border-t border-slate-700 flex space-x-2">
+                <input type="text" id="widget-chat-input" placeholder="Ask a question..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none">
+                <button onclick="handleWidgetChat()" class="bg-indigo-600 w-8 h-8 rounded-lg text-white"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="w-14 h-14 bg-indigo-600 rounded-full shadow-xl flex items-center justify-center text-white text-xl hover:scale-110 transition-all shadow-indigo-600/30">
+            <i id="chat-icon" class="fas fa-comment-dots"></i>
+        </button>
+    </div>
+
+    <footer class="text-center py-6 text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em] border-t border-slate-800">
+        &copy; 2026 S.H.I.E.L.D. Secure Network | Metadata Stripped & AI Verified
+    </footer>
+
+    <script>
+        let activeStepIndex = 1;
+        const totalSteps = 4;
+        let hasSuspect = false;
+
+        function toggleAwareness() {
+            const drawer = document.getElementById('awareness-drawer');
+            if (drawer.classList.contains('hidden')) {
+                drawer.classList.remove('hidden');
+                setTimeout(() => drawer.classList.remove('translate-x-full'), 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => drawer.classList.add('hidden'), 300);
+            }
+        }
+        function toggleChat() {
+            const win = document.getElementById('chat-window');
+            const icon = document.getElementById('chat-icon');
+            win.classList.toggle('hidden');
+            win.classList.toggle('scale-95');
+            icon.classList.toggle('fa-comment-dots');
+            icon.classList.toggle('fa-chevron-down');
+        }
+        function switchTab(tab) {
+            const reportSec = document.getElementById('section-report');
+            const trackSec = document.getElementById('section-track');
+            const reportBtn = document.getElementById('tab-report-btn');
+            const trackBtn = document.getElementById('tab-track-btn');
+
+            if (tab === 'report') {
+                reportSec.classList.remove('hidden');
+                trackSec.classList.add('hidden');
+                reportBtn.classList.add('border-indigo-500', 'text-indigo-400');
+                trackBtn.classList.remove('border-indigo-500', 'text-indigo-400');
+                trackBtn.classList.add('border-transparent', 'text-slate-500');
+            } else {
+                trackSec.classList.remove('hidden');
+                reportSec.classList.add('hidden');
+                trackBtn.classList.add('border-indigo-500', 'text-indigo-400');
+                reportBtn.classList.remove('border-indigo-500', 'text-indigo-400');
+                reportBtn.classList.add('border-transparent', 'text-slate-500');
+            }
+        }
+        function toggleSuspectFields(show) {
+            hasSuspect = show;
+            const area = document.getElementById('suspect-details-area');
+            const yesBtn = document.getElementById('suspect-yes');
+            const noBtn = document.getElementById('suspect-no');
+            if (show) {
+                area.classList.remove('hidden');
+                yesBtn.classList.add('border-indigo-500', 'bg-indigo-500/10', 'text-indigo-400');
+                noBtn.classList.remove('border-indigo-500', 'bg-indigo-500/10', 'text-indigo-400');
+            } else {
+                area.classList.add('hidden');
+                noBtn.classList.add('border-indigo-500', 'bg-indigo-500/10', 'text-indigo-400');
+                yesBtn.classList.remove('border-indigo-500', 'bg-indigo-500/10', 'text-indigo-400');
+            }
+        }
+        function handleWidgetChat() {
+            const input = document.getElementById('widget-chat-input');
+            const box = document.getElementById('widget-chat-box');
+            if (!input.value.trim()) return;
+            box.innerHTML += `<div class="bg-indigo-600 text-white p-3 rounded-2xl rounded-tr-none ml-auto max-w-[85%] text-right">${input.value}</div>`;
+            const userMsg = input.value.toLowerCase();
+            input.value = "";
+            setTimeout(() => {
+                let reply = "I'm analyzing your query...";
+                if (userMsg.includes("phish")) reply = "Phishing is an email scam. Never click suspicious links!";
+                if (userMsg.includes("metadata")) reply = "S.H.I.E.L.D. strips GPS data from photos for your privacy.";
+                box.innerHTML += `<div class="bg-slate-800 border border-slate-700 p-3 rounded-2xl rounded-tl-none text-slate-300">${reply}</div>`;
+                box.scrollTop = box.scrollHeight;
+            }, 600);
+        }
+
+        function displayStatusMessage(msg, type) {
+            const box = document.getElementById('status-box');
+            box.innerText = msg;
+            box.className = `mb-6 p-4 rounded-xl text-xs font-bold flex items-center space-x-2 ${type === 'error' ? 'bg-red-900/30 text-red-400 border border-red-500/20' : 'bg-indigo-900/30 text-indigo-400 border border-indigo-500/20'}`;
+            box.classList.remove('hidden');
+        }
+
+       async function sendMockOTP() {
+    const email = document.getElementById('user-email').value;
+    if (!email) {
+        displayStatusMessage("Please enter your email first.", "error");
+        return;
+    }
+
+    displayStatusMessage("Contacting S.H.I.E.L.D. Secure Server...", "info");
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/verify-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+        });
+
+        const data = await response.json();
+        
+        // Show the OTP input field
+        document.getElementById('otp-container').classList.remove('hidden');
+        
+        // This will show either the success message or the debug code if email fails
+        displayStatusMessage(data.message + (data.debug ? " [DEBUG CODE: " + data.debug + "]" : ""), "info");
+
+    } catch (error) {
+        console.error("Connection Error:", error);
+        displayStatusMessage("Backend Offline. Check if main.py is running.", "error");
+    }
+}
+
+        async function navigateStep(offset) {
+    if (offset === 1 && activeStepIndex === 1) {
+        const email = document.getElementById('user-email').value;
+        const otp = document.getElementById('otp-code').value;
+
+        // Ask the Python Backend to verify the OTP
+        const res = await fetch('http://127.0.0.1:8000/api/check-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, otp: otp })
+        });
+
+        if (!res.ok) {
+            displayStatusMessage("Incorrect OTP. Please check your email.", "error");
+            return;
+        }
+    }
+    
+    // If verified or moving backward, proceed to next step
+    document.getElementById(`step-${activeStepIndex}`).classList.remove('active');
+    activeStepIndex += offset;
+    document.getElementById(`step-${activeStepIndex}`).classList.add('active');
+    updateProgress();
+}
+
+        function updateProgress() {
+            const pct = (activeStepIndex / totalSteps) * 100;
+            const labels = ["Verification", "Context", "Evidence", "Submit"];
+            document.getElementById('progress-indicator').style.width = pct + "%";
+            document.getElementById('progress-percent').innerText = Math.round(pct) + "%";
+            document.getElementById('progress-text').innerText = labels[activeStepIndex - 1];
+        }
+
+        document.getElementById('evidence-files').onchange = function() {
+            const list = document.getElementById('file-list');
+            list.innerText = "STAGED: " + this.files[0].name;
+            list.classList.remove('hidden');
+        };
+
+        async function handleMainPageTrack() {
+            const token = document.getElementById('track-token-input').value.trim();
+            if(!token) return;
+            try {
+                const res = await fetch(`http://127.0.0.1:8000/api/track/${token}`);
+                if(!res.ok) throw new Error();
+                const data = await res.json();
+                document.getElementById('track-category-display').innerText = data.ai_triage + " DETECTED";
+                document.getElementById('track-status-badge').innerText = data.status.toUpperCase();
+                document.getElementById('track-advice-display').innerText = data.routing_advice;
+                document.getElementById('track-result').classList.remove('hidden');
+            } catch(e) { alert("Token not found in encrypted storage."); }
+        }
+
+        // --- BACKEND INTEGRATION ---
+        async function handleFormSubmit(e) {
+    e.preventDefault();
+    if (!document.getElementById('legal-consent').checked) { 
+        displayStatusMessage("CONSENT REQUIRED", "error"); 
+        return; 
+    }
+    
+    const btn = document.getElementById('submit-btn');
+    btn.innerText = "TRIAGING..."; 
+    btn.disabled = true;
+
+    // Grab all values safely
+    const payload = {
+        category: document.getElementById('crime-category')?.value || "Other",
+        narrative: document.getElementById('crime-description')?.value || "No description",
+        device_type: document.getElementById('device-type')?.value || "Unknown",
+        incident_location: document.getElementById('incident-location')?.value || "Unknown",
+        has_suspect: hasSuspect,
+        suspect_name: hasSuspect ? (document.getElementById('suspect-name')?.value || "N/A") : "N/A",
+        suspect_details: hasSuspect ? (document.getElementById('suspect-desc')?.value || "N/A") : "N/A"
+    };
+
+    try {
+        // 1. Submit the text report
+        const res = await fetch('http://127.0.0.1:8000/api/submit-report', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error("Server Error");
+
+        const reportData = await res.json(); // FIXED: Changed from reportRes to res
+
+        // 2. Upload File if selected
+        const fileInput = document.getElementById('evidence-files');
+        if (fileInput.files.length > 0) {
+            btn.innerText = "SCRUBBING METADATA...";
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            await fetch(`http://127.0.0.1:8000/api/upload-evidence/${reportData.case_token_id}`, {
+                method: 'POST',
+                body: formData
+            });
+        }
+
+        // 3. Show Success UI
+        document.getElementById('shield-form').parentElement.innerHTML = `
+            <div class="text-center py-10">
+                <div class="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/20 text-3xl">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h2 class="text-3xl font-black mb-4">Report Logged</h2>
+                <div class="bg-slate-900 p-6 rounded-3xl mb-6 border border-slate-700 shadow-inner">
+                    <span class="text-[10px] text-slate-500 uppercase font-black tracking-widest block mb-2">Secure Tracking ID</span>
+                    <p class="text-2xl font-mono text-indigo-400 font-black">${reportData.case_token_id}</p>
+                </div>
+                <div class="bg-indigo-900/30 p-5 rounded-2xl text-left border border-indigo-500/30 space-y-2">
+                    <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">AI Triage Result:</p>
+                    <p class="text-sm">Status: <strong class="text-emerald-400">${reportData.triage_result}</strong></p>
+                    <p class="text-[11px] text-slate-400 italic leading-relaxed">${reportData.routing_advice}</p>
+                </div>
+                <div class="mt-8 flex flex-col space-y-4">
+                    <button onclick="location.reload()" class="bg-indigo-600 py-3 rounded-2xl text-xs font-black uppercase tracking-widest text-white">File New Report</button>
+                </div>
+            </div>`;
+    } catch (err) {
+        console.error(err);
+        displayStatusMessage("COMMUNICATION FAULT: " + err.message, "error");
+        btn.disabled = false; 
+        btn.innerText = "SUBMIT INTEL";
+    }
+}
+    </script>
+</body>
+</html>

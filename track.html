@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD | Track Incident</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans">
+
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 py-4 px-6 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white font-bold text-xl tracking-wider">
+                    <i class="fas fa-shield-toggle mr-1"></i>S.H.I.E.L.D.
+                </div>
+                <span class="text-xs text-slate-400 hidden sm:inline-block">Case Telemetry Center</span>
+            </div>
+            <a href="hub.html" class="text-sm text-indigo-400 hover:text-indigo-300 transition"><i class="fas fa-graduation-cap mr-1"></i> Awareness Hub</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-4xl w-full mx-auto p-4 sm:p-6 space-y-6">
+        
+        <!-- Search Gateway -->
+        <div id="search-container" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl max-w-xl mx-auto mt-10">
+            <h2 class="text-xl font-bold mb-2 flex items-center"><i class="fas fa-magnifying-glass text-indigo-400 mr-2"></i> Track Your Report Status</h2>
+            <p class="text-slate-400 text-xs mb-4">Input the randomized tracking ID token you received upon submitting your report file.</p>
+            
+            <div class="flex space-x-2">
+                <input type="text" id="tracking-id-input" placeholder="e.g., SHIELD-123456" class="flex-grow px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none uppercase font-mono tracking-wider text-sm">
+                <button onclick="simulateTrackingFetch()" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-xl font-semibold text-sm transition">Search</button>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-2 font-mono">Tip for testing: Enter "SHIELD-123456" or any text to simulate.</p>
+        </div>
+
+        <!-- Dashboard Layout (Hidden until searched) -->
+        <div id="tracking-dashboard" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Left Side: Status & Details -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- Status Timeline Box -->
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-lg text-slate-200">Case Progress Timeline</h3>
+                        <span class="text-xs font-mono bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2.5 py-1 rounded-md" id="case-id-badge">SHIELD-123456</span>
+                    </div>
+
+                    <!-- Visual Timeline -->
+                    <div class="relative pl-6 space-y-6 before:absolute before:bottom-2 before:top-2 before:left-2 before:w-0.5 before:bg-slate-700">
+                        <!-- Step 1 (Complete) -->
+                        <div class="relative before:absolute before:left-[-20px] before:top-1.5 before:w-3 before:h-3 before:rounded-full before:bg-emerald-500 before:ring-4 before:ring-emerald-500/20">
+                            <h4 class="text-sm font-semibold text-emerald-400">Report Received & Cleared</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">Automated pipeline has successfully scrubbed image metadata and checked for viruses. Routed to digital tier.</p>
+                        </div>
+                        <!-- Step 2 (Active) -->
+                        <div class="relative before:absolute before:left-[-20px] before:top-1.5 before:w-3 before:h-3 before:rounded-full before:bg-indigo-500 before:ring-4 before:ring-indigo-500/20">
+                            <h4 class="text-sm font-semibold text-indigo-400">Under Active Investigation</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">Assigned to an institutional investigator. Action logs are running against precise investigation timelines.</p>
+                        </div>
+                        <!-- Step 3 (Pending) -->
+                        <div class="relative before:absolute before:left-[-20px] before:top-1.5 before:w-3 before:h-3 before:rounded-full before:bg-slate-700">
+                            <h4 class="text-sm font-semibold text-slate-500">Case Resolved & Finalized</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">A clear case resolution and summary document will be displayed here upon completion.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case File Summary -->
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
+                    <h3 class="font-bold text-base text-slate-200 mb-4"><i class="fas fa-file-invoice mr-2 text-slate-400"></i>Report Details Log</h3>
+                    <div class="space-y-3 text-xs text-slate-300">
+                        <div class="grid grid-cols-3 border-b border-slate-700/50 pb-2">
+                            <span class="text-slate-500 font-medium">Category</span>
+                            <span class="col-span-2 font-semibold">Phishing & Credential Extortion</span>
+                        </div>
+                        <div class="grid grid-cols-3 border-b border-slate-700/50 pb-2">
+                            <span class="text-slate-500 font-medium">Submitted</span>
+                            <span class="col-span-2 font-mono">May 15, 2026</span>
+                        </div>
+                        <div class="grid grid-cols-3">
+                            <span class="text-slate-500 font-medium">Description</span>
+                            <span class="col-span-2 text-slate-400 leading-relaxed">Received multiple spoofed emails matching college portal styles demanding immediate password updates. Captured logs uploaded.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: 2-Way Anonymous Chat Engine -->
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl flex flex-col h-[450px] shadow-xl overflow-hidden">
+                <!-- Chat Header -->
+                <div class="bg-slate-750 p-4 border-b border-slate-700 flex items-center space-x-3">
+                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-200">Secure Investigator Link</h4>
+                        <span class="text-[10px] text-slate-500">Identity Encrypted Terminal</span>
+                    </div>
+                </div>
+
+                <!-- Chat Messages Screen -->
+                <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 text-xs">
+                    <!-- Investigator Message -->
+                    <div class="bg-slate-700/60 border border-slate-700 text-slate-200 p-3 rounded-xl max-w-[85%] self-start">
+                        <p class="font-semibold text-[10px] text-indigo-400 mb-1">Investigator Assigned</p>
+                        Hello. Thank you for uploading the network mail logs. Can you clarify if you clicked the payload hyperlink?
+                    </div>
+                </div>
+
+                <!-- Chat Input Tray -->
+                <div class="p-3 bg-slate-900 border-t border-slate-700 flex space-x-2">
+                    <input type="text" id="chat-input" placeholder="Type encrypted message..." class="flex-grow px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:ring-1 focus:ring-indigo-500 outline-none text-xs">
+                    <button onclick="sendChatMessage()" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-2 rounded-xl text-xs font-semibold transition"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-xs text-slate-500 border-t border-slate-800/80 bg-slate-900">
+        &copy; 2026 S.H.I.E.L.D. Systems Management Framework.
+    </footer>
+
+    <script>
+        async function simulateTrackingFetch() {
+    const token = document.getElementById('tracking-id-input').value.trim().toUpperCase();
+    if(!token) return;
+    
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/track/${token}`);
+        if (!response.ok) throw new Error("Case token not found.");
+        
+        const data = await response.json();
+
+        // Update the UI with real data from Python
+        document.getElementById('case-id-badge').innerText = token;
+        document.getElementById('search-container').classList.add('hidden');
+        document.getElementById('tracking-dashboard').classList.remove('hidden');
+        
+        // You can even map the category and narrative here!
+        console.log("Fetched Case Data:", data);
+
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const messageText = input.value.trim();
+            if(!messageText) return;
+
+            const chatMessagesBox = document.getElementById('chat-messages');
+            
+            // Create user message container node
+            const messageElement = document.createElement('div');
+            messageElement.className = "bg-indigo-600/20 border border-indigo-500/30 text-slate-200 p-3 rounded-xl max-w-[85%] ml-auto text-right";
+            messageElement.innerHTML = `<p class="font-semibold text-[10px] text-indigo-400 mb-1">You (Anonymous Reporter)</p>${messageText}`;
+            
+            chatMessagesBox.appendChild(messageElement);
+            input.value = '';
+            chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

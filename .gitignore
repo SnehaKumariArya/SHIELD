@@ -1,0 +1,9 @@
+# Ignore the database
+shield.db
+
+# Ignore uploaded evidence
+cleaned_evidence/
+
+# Ignore Python cache
+__pycache__/
+.env

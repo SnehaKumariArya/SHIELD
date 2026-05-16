@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD | Cyber Awareness & AI Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans leading-relaxed">
+
+    <nav class="bg-slate-800/50 backdrop-blur-md border-b border-slate-700 sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-xl text-white font-black text-2xl tracking-tighter shadow-lg shadow-indigo-500/20">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold leading-tight">S.H.I.E.L.D. HUB</h1>
+                    <p class="text-[10px] text-indigo-400 uppercase tracking-widest font-bold">Campus Security Intelligence</p>
+                </div>
+            </div>
+            <div class="flex space-x-4">
+                <a href="index.html" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition flex items-center">
+                    <i class="fas fa-plus-circle mr-2"></i> File A Report
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4">
+        
+        <section class="lg:col-span-8 space-y-10">
+            
+            <div class="relative overflow-hidden bg-indigo-600 rounded-3xl p-8 shadow-2xl">
+                <div class="relative z-10 max-w-lg">
+                    <h2 class="text-3xl font-black mb-4">Stay Ahead of Cyber Threats.</h2>
+                    <p class="text-indigo-100 text-sm mb-6 leading-relaxed">The digital campus is evolving. Learn how to protect your credentials, identify phishing vectors, and report incidents anonymously.</p>
+                    <div class="flex space-x-4">
+                        <span class="bg-white/20 px-4 py-2 rounded-lg text-xs font-bold border border-white/10"><i class="fas fa-shield-virus mr-2"></i> 100% Secure</span>
+                        <span class="bg-white/20 px-4 py-2 rounded-lg text-xs font-bold border border-white/10"><i class="fas fa-user-secret mr-2"></i> Fully Anonymous</span>
+                    </div>
+                </div>
+                <i class="fas fa-user-shield absolute -bottom-10 -right-10 text-[200px] text-white/10 rotate-12"></i>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-6 flex items-center">
+                    <span class="w-8 h-1 bg-indigo-500 rounded-full mr-3"></span>
+                    Knowledge Matrix
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl hover:border-indigo-500 transition-all group">
+                        <i class="fas fa-envelope-open-text text-2xl text-indigo-400 mb-4 group-hover:scale-110 transition"></i>
+                        <h4 class="font-bold text-lg mb-2">Phishing Recognition</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Learn to identify spoofed headers and suspicious URLs before clicking. Most campus attacks start with a fake "Password Reset" email.</p>
+                    </div>
+                    <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl hover:border-indigo-500 transition-all group">
+                        <i class="fas fa-key text-2xl text-emerald-400 mb-4 group-hover:scale-110 transition"></i>
+                        <h4 class="font-bold text-lg mb-2">MFA Best Practices</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Multi-Factor Authentication is your last line of defense. Never approve an MFA prompt you didn't initiate yourself.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/50 border border-slate-700 rounded-3xl p-8">
+                <h3 class="text-xl font-bold mb-6">Upcoming Cyber Safety Seminars</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-slate-900 rounded-2xl border border-slate-700 hover:bg-slate-800 transition cursor-pointer">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-indigo-500/20 text-indigo-400 p-3 rounded-xl font-bold text-center w-16">
+                                <span class="block text-lg leading-none">24</span>
+                                <span class="text-[10px] uppercase">May</span>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-bold">Web3 & Crypto-Scam Awareness</h5>
+                                <p class="text-[10px] text-slate-500">Virtual Session • 4:00 PM IST</p>
+                            </div>
+                        </div>
+                        <button class="text-indigo-400 text-xs font-bold px-4 py-2 border border-indigo-400/20 rounded-lg hover:bg-indigo-400 hover:text-white transition">Register</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="lg:col-span-4">
+            <div class="bg-slate-800 border border-slate-700 rounded-3xl h-[700px] flex flex-col shadow-2xl sticky top-24 overflow-hidden">
+                <div class="p-6 bg-slate-750 border-b border-slate-700 flex items-center space-x-4">
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-xl text-white shadow-lg shadow-indigo-500/40">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-4 border-slate-800 rounded-full"></span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-100">Cyber Assistant</h4>
+                        <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">AI Powered • Online</p>
+                    </div>
+                </div>
+
+                <div id="chat-box" class="flex-grow p-6 overflow-y-auto space-y-4 custom-scrollbar bg-slate-900/30">
+                    <div class="bg-slate-800 border border-slate-700 p-4 rounded-2xl rounded-tl-none text-xs text-slate-300 leading-relaxed shadow-sm">
+                        Hello! I am your S.H.I.E.L.D. AI. You can ask me about cybercrimes, metadata stripping, or how our tracking system works. How can I help you today?
+                    </div>
+                </div>
+
+                <div class="p-6 bg-slate-800 border-t border-slate-700">
+                    <div class="flex items-center bg-slate-900 rounded-2xl p-2 border border-slate-700 focus-within:border-indigo-500 transition">
+                        <input type="text" id="chat-input" placeholder="Type your question..." class="flex-grow bg-transparent border-none outline-none px-4 text-sm text-slate-200">
+                        <button onclick="handleBotChat()" class="bg-indigo-600 hover:bg-indigo-500 w-10 h-10 rounded-xl text-white transition flex items-center justify-center">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-center text-slate-500 mt-4 italic">Responses are generated by AI for educational purposes.</p>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <footer class="mt-12 py-8 text-center text-slate-500 text-xs border-t border-slate-800">
+        &copy; 2026 S.H.I.E.L.D. Secure Campus Ecosystem. Verified Identity. Anonymous Privacy.
+    </footer>
+
+    <script>
+        function handleBotChat() {
+            const input = document.getElementById('chat-input');
+            const box = document.getElementById('chat-box');
+            const text = input.value.trim();
+            if (!text) return;
+
+            // Add User Message
+            box.innerHTML += `<div class="bg-indigo-600 p-4 rounded-2xl rounded-tr-none text-xs text-white ml-auto max-w-[80%] shadow-lg shadow-indigo-600/10">${text}</div>`;
+            input.value = "";
+            box.scrollTop = box.scrollHeight;
+
+            // Generate AI Response
+            setTimeout(() => {
+                let reply = "I'm analyzing your query... As a cyber safety AI, I recommend checking our Knowledge Matrix for specific guides on that topic!";
+                
+                const lowText = text.toLowerCase();
+                if (lowText.includes("phish")) reply = "Phishing uses fake identities to steal passwords. S.H.I.E.L.D. allows you to report these emails anonymously; we then strip all tracking metadata to keep you safe.";
+                if (lowText.includes("metadata")) reply = "Every photo has hidden EXIF data (location, device info). When you upload evidence to S.H.I.E.L.D., our backend creates a brand-new image with zero metadata to protect your privacy.";
+                if (lowText.includes("track")) reply = "After submission, you get a unique Token. Enter it in the Tracking Center to see if the AI Triage classified your case as Cyber or Non-Cyber.";
+
+                box.innerHTML += `<div class="bg-slate-800 border border-slate-700 p-4 rounded-2xl rounded-tl-none text-xs text-slate-300 shadow-sm animate-pulse">Thinking...</div>`;
+                box.scrollTop = box.scrollHeight;
+
+                setTimeout(() => {
+                    box.lastChild.remove();
+                    box.innerHTML += `<div class="bg-slate-800 border border-slate-700 p-4 rounded-2xl rounded-tl-none text-xs text-slate-300 shadow-sm">${reply}</div>`;
+                    box.scrollTop = box.scrollHeight;
+                }, 1000);
+
+            }, 500);
+        }
+    </script>
+</body>
+</html>

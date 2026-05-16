@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD | Investigator Vault</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .animate-slideIn { animation: slideIn 0.3s ease-out; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans overflow-x-hidden">
+
+    <header class="bg-slate-800 border-b border-slate-700 py-3 px-6 shadow-xl flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-4">
+            <div class="bg-indigo-600 text-white p-2 rounded-lg shadow-lg shadow-indigo-500/20">
+                <i class="fas fa-shield-halved text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-sm font-black uppercase tracking-tighter text-slate-100">S.H.I.E.L.D. Admin</h1>
+                <p class="text-[9px] text-indigo-400 font-bold uppercase tracking-widest">Campus Intelligence Command</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-6">
+            <button onclick="fetchAllIncidents()" class="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-indigo-400 transition flex items-center">
+                <i class="fas fa-sync-alt mr-2"></i> Refresh Stream
+            </button>
+            <div class="h-8 w-[1px] bg-slate-700"></div>
+            <div class="flex items-center space-x-3 text-xs">
+                <span class="text-slate-400 font-medium">Sneha</span>
+                <div class="w-8 h-8 rounded-full bg-slate-700 border border-slate-600 flex items-center justify-center text-indigo-400">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 flex-grow">
+        
+        <aside class="lg:col-span-1 space-y-6">
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg">
+                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">Queue Analytics</h3>
+                
+                <div class="space-y-4">
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">
+                        <span class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Database Connection</span>
+                        <div class="flex items-center text-emerald-400 font-black text-xs">
+                            <span class="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></span> ACTIVE
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">
+                        <span class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Total Logs</span>
+                        <span id="stat-total" class="text-2xl font-black text-indigo-400 font-mono">--</span>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-slate-700">
+                    <p class="text-[9px] text-slate-500 italic leading-relaxed">Admin changes to "Status" are broadcasted live to the user tracking portal instantly.</p>
+                </div>
+            </div>
+        </aside>
+
+        <section class="lg:col-span-3">
+            <div class="bg-slate-800 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col h-full max-h-[80vh]">
+                <div class="p-6 border-b border-slate-700 bg-slate-800/50 flex justify-between items-center">
+                    <h2 class="text-xs font-black text-slate-300 uppercase tracking-widest">Incoming Real-Time Incident Stream</h2>
+                    <span class="text-[10px] bg-slate-700 text-indigo-300 px-3 py-1 rounded-full font-bold uppercase border border-slate-600">Secure Sync</span>
+                </div>
+
+                <div class="overflow-y-auto custom-scrollbar flex-grow">
+                    <table class="w-full text-left border-collapse text-[11px]">
+                        <thead>
+                            <tr class="bg-slate-900/50 border-b border-slate-700 text-slate-500 uppercase font-black tracking-widest sticky top-0 z-10">
+                                <th class="p-4">Case Token ID</th>
+                                <th class="p-4">AI Triage Label</th>
+                                <th class="p-4">Current Live Status</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incident-stream" class="divide-y divide-slate-700/40 text-slate-300 font-mono">
+                            <tr>
+                                <td colspan="4" class="p-20 text-center">
+                                    <i class="fas fa-circle-notch fa-spin text-indigo-500 text-3xl mb-4"></i>
+                                    <p class="text-slate-500 font-sans italic">Fetching encrypted records...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="action-drawer" class="hidden mt-6 bg-indigo-900/10 border border-indigo-500/30 rounded-2xl p-6 animate-slideIn">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-sm font-black text-indigo-400 uppercase tracking-widest" id="drawer-title">CASE DETAILS</h3>
+                    <button onclick="closeDrawer()" class="text-slate-500 hover:text-white"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                        <span class="text-[10px] text-slate-500 uppercase block mb-2">Narrative Context</span>
+                        <p id="drawer-narrative" class="text-xs text-slate-300 leading-relaxed font-sans">--</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                            <span class="text-[10px] text-slate-500 uppercase block mb-2">Evidence Status</span>
+                            <div class="flex items-center text-emerald-400 font-bold">
+                                <i class="fas fa-shield-virus mr-2"></i> Metadata Scrubbed & Verified
+                            </div>
+                        </div>
+                        <button onclick="confirmPurge()" class="w-full bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white border border-red-500/20 py-2 rounded-xl text-[10px] font-black uppercase transition tracking-widest">
+                            <i class="fas fa-trash-alt mr-2"></i> Purge From Database
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="p-4 text-center text-[9px] font-bold text-slate-600 uppercase tracking-[0.3em]">
+        &copy; 2026 S.H.I.E.L.D. Internal Security Protocol | Authorized Access Only
+    </footer>
+
+    <script>
+        let selectedCaseId = null;
+
+        window.onload = fetchAllIncidents;
+
+        // FETCH ALL REPORTS FROM BACKEND
+        async function fetchAllIncidents() {
+            const stream = document.getElementById('incident-stream');
+            const totalDisplay = document.getElementById('stat-total');
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/admin/all-reports');
+                const data = await response.json();
+                
+                stream.innerHTML = ''; 
+                totalDisplay.innerText = data.length.toString().padStart(2, '0');
+
+                if (data.length === 0) {
+                    stream.innerHTML = '<tr><td colspan="4" class="p-20 text-center text-slate-600 italic">No reports found in active database.</td></tr>';
+                    return;
+                }
+
+                data.reverse().forEach(incident => {
+                    stream.innerHTML += `
+                        <tr class="hover:bg-slate-800/60 transition group">
+                            <td class="p-4 font-black text-indigo-400 tracking-tighter">${incident.case_id}</td>
+                            <td class="p-4">
+                                <span class="bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-lg border border-indigo-500/20 font-sans font-bold text-[9px] uppercase tracking-widest">
+                                    ${incident.ai_triage}
+                                </span>
+                            </td>
+                            <td class="p-4">
+                                <select onchange="updateStatus('${incident.case_id}', this.value)" 
+                                        class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-[10px] text-slate-200 outline-none focus:ring-1 focus:ring-indigo-500 font-sans font-bold transition">
+                                    <option value="Received" ${incident.status === 'Received' ? 'selected' : ''}>RECEIVED</option>
+                                    <option value="Investigating" ${incident.status === 'Investigating' ? 'selected' : ''}>INVESTIGATING</option>
+                                    <option value="Awaiting Info" ${incident.status === 'Awaiting Info' ? 'selected' : ''}>AWAITING INFO</option>
+                                    <option value="Resolved" ${incident.status === 'Resolved' ? 'selected' : ''}>RESOLVED</option>
+                                </select>
+                            </td>
+                            <td class="p-4 text-right">
+                                <button onclick="openDrawer('${incident.case_id}', \`${incident.narrative}\`)" 
+                                        class="text-slate-500 hover:text-indigo-400 p-2 transition">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                stream.innerHTML = '<tr><td colspan="4" class="p-20 text-center text-red-400">Database Offline. Run main.py.</td></tr>';
+            }
+        }
+
+        // UPDATE STATUS IN BACKEND
+        async function updateStatus(caseId, statusValue) {
+            try {
+                await fetch(`http://127.0.0.1:8000/api/admin/update-status/${caseId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ new_status: statusValue })
+                });
+                console.log(`Synced: ${caseId} is now ${statusValue}`);
+            } catch (e) { alert("Status Sync Failed."); }
+        }
+
+        // OPEN THE DETAILS DRAWER
+        function openDrawer(id, narrative) {
+            selectedCaseId = id;
+            document.getElementById('drawer-title').innerText = `CASE MANAGEMENT: ${id}`;
+            document.getElementById('drawer-narrative').innerText = narrative;
+            document.getElementById('action-drawer').classList.remove('hidden');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        function closeDrawer() {
+            document.getElementById('action-drawer').classList.add('hidden');
+        }
+
+        // DELETE THE REPORT PERMANENTLY
+        async function confirmPurge() {
+            if (!confirm(`CRITICAL ACTION: Purge Case ${selectedCaseId} permanently?`)) return;
+
+            try {
+                const res = await fetch(`http://127.0.0.1:8000/api/admin/delete-report/${selectedCaseId}`, {
+                    method: 'DELETE'
+                });
+                if (res.ok) {
+                    closeDrawer();
+                    fetchAllIncidents();
+                }
+            } catch (e) { alert("Deletion Fault."); }
+        }
+    </script>
+</body>
+</html>
