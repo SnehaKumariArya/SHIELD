@@ -319,7 +319,7 @@ crimes</title>
     displayStatusMessage("Contacting S.H.I.E.L.D. Secure Server...", "info");
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/verify-email', {
+        const response = await fetch('https://shield-7dxm.onrender.com/api/verify-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email })
@@ -345,7 +345,7 @@ crimes</title>
         const otp = document.getElementById('otp-code').value;
 
         // Ask the Python Backend to verify the OTP
-        const res = await fetch('http://127.0.0.1:8000/api/check-otp', {
+        const res = await fetch('https://shield-7dxm.onrender.com/api/check-otp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email, otp: otp })
@@ -382,7 +382,7 @@ crimes</title>
             const token = document.getElementById('track-token-input').value.trim();
             if(!token) return;
             try {
-                const res = await fetch(`http://127.0.0.1:8000/api/track/${token}`);
+                const res = await fetch(`https://shield-7dxm.onrender.com/api/track/${token}`);
                 if(!res.ok) throw new Error();
                 const data = await res.json();
                 document.getElementById('track-category-display').innerText = data.ai_triage + " DETECTED";
@@ -417,7 +417,7 @@ crimes</title>
 
     try {
         // 1. Submit the text report
-        const res = await fetch('http://127.0.0.1:8000/api/submit-report', {
+        const res = await fetch('https://shield-7dxm.onrender.com/api/submit-report', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -433,7 +433,7 @@ crimes</title>
             btn.innerText = "SCRUBBING METADATA...";
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
-            await fetch(`http://127.0.0.1:8000/api/upload-evidence/${reportData.case_token_id}`, {
+            await fetch(`https://shield-7dxm.onrender.com/api/upload-evidence/${reportData.case_token_id}`, {
                 method: 'POST',
                 body: formData
             });

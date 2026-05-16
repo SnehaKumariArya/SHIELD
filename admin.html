@@ -22,7 +22,7 @@
                 <i class="fas fa-shield-halved text-xl"></i>
             </div>
             <div>
-                <h1 class="text-sm font-black uppercase tracking-tighter text-slate-100">S.H.I.E.L.D. Admin</h1>
+                <h1 class="text-sm font-black uppercase tracking-tighter text-slate-100">SHIELD Admin</h1>
                 <p class="text-[9px] text-indigo-400 font-bold uppercase tracking-widest">Campus Intelligence Command</p>
             </div>
         </div>
@@ -135,7 +135,7 @@
             const totalDisplay = document.getElementById('stat-total');
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/admin/all-reports');
+                const response = await fetch('https://shield-7dxm.onrender.com/api/admin/all-reports');
                 const data = await response.json();
                 
                 stream.innerHTML = ''; 
@@ -181,7 +181,7 @@
         // UPDATE STATUS IN BACKEND
         async function updateStatus(caseId, statusValue) {
             try {
-                await fetch(`http://127.0.0.1:8000/api/admin/update-status/${caseId}`, {
+                await fetch(`https://shield-7dxm.onrender.com/api/admin/update-status/${caseId}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ new_status: statusValue })
@@ -208,7 +208,7 @@
             if (!confirm(`CRITICAL ACTION: Purge Case ${selectedCaseId} permanently?`)) return;
 
             try {
-                const res = await fetch(`http://127.0.0.1:8000/api/admin/delete-report/${selectedCaseId}`, {
+                const res = await fetch(`https://shield-7dxm.onrender.com/api/admin/delete-report/${selectedCaseId}`, {
                     method: 'DELETE'
                 });
                 if (res.ok) {
