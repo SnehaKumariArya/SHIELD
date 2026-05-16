@@ -134,12 +134,10 @@
             const text = input.value.trim();
             if (!text) return;
 
-            // Add User Message
             box.innerHTML += `<div class="bg-indigo-600 p-4 rounded-2xl rounded-tr-none text-xs text-white ml-auto max-w-[80%] shadow-lg shadow-indigo-600/10">${text}</div>`;
             input.value = "";
             box.scrollTop = box.scrollHeight;
 
-            // Generate AI Response
             setTimeout(() => {
                 let reply = "I'm analyzing your query... As a cyber safety AI, I recommend checking our Knowledge Matrix for specific guides on that topic!";
                 
